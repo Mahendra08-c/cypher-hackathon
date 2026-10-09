@@ -3,136 +3,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gadgetbay | Returns Intelligence</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
+            background: #f3f6fb;
             color: #172033;
         }
-
         header {
             background: #14213d;
             color: white;
-            padding: 24px 7%;
+            padding: 26px 7%;
         }
-
-        header h1 {
-            margin: 0 0 8px;
-        }
-
-        header p {
-            margin: 0;
-            color: #cbd5e1;
-        }
-
-        main {
-            max-width: 1100px;
-            margin: 32px auto;
-            padding: 0 20px;
-        }
-
-        .stats {
+        header h1 { margin: 0 0 8px; }
+        header p { color: #cbd5e1; margin: 0; }
+        main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 16px;
         }
-
         .card {
             background: white;
-            padding: 24px;
+            padding: 22px;
             border-radius: 14px;
             box-shadow: 0 4px 18px #14213d0c;
+            margin-bottom: 18px;
         }
-
-        .card p {
-            color: #64748b;
-            margin-bottom: 10px;
+        .muted { color: #64748b; }
+        .number { font-size: 30px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            text-align: left;
+            padding: 12px 8px;
+            border-bottom: 1px solid #e2e8f0;
         }
-
-        .number {
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .panel {
-            margin-top: 24px;
-        }
-
         .alert {
             background: #fff7ed;
             border-left: 5px solid #f59e0b;
-            padding: 18px;
+            padding: 15px;
             border-radius: 8px;
+            margin-top: 12px;
         }
-
-        .status {
-            color: #b45309;
-            font-weight: bold;
+        .button {
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
         }
-
-        footer {
-            text-align: center;
-            padding: 24px;
-            color: #64748b;
+        @media (max-width: 600px) {
+            table { font-size: 13px; }
+            th, td { padding: 9px 4px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Gadgetbay</h1>
-        <p>Agentic AI Returns & Recovery Intelligence</p>
-    </header>
+<header>
+    <h1>Gadgetbay</h1>
+    <p>Agentic AI Returns & Recovery Intelligence</p>
+</header>
 
-    <main>
-        <h2>Returns Overview</h2>
-        <p>Monitor returned products, recovery opportunities and supplier risks.</p>
+<main>
+    <h2>Returns overview</h2>
+    <p class="muted">Challenge demonstration data · Batch HB-09</p>
 
-        <section class="stats">
-            <div class="card">
-                <p>Returned Units</p>
-                <div class="number">40</div>
-            </div>
+    <section class="grid">
+        <div class="card">
+            <p class="muted">Returned units</p>
+            <div class="number" id="units">—</div>
+        </div>
+        <div class="card">
+            <p class="muted">Vendor-eligible units</p>
+            <div class="number" id="eligible">—</div>
+        </div>
+        <div class="card">
+            <p class="muted">Refurbishment candidates</p>
+            <div class="number" id="refurbish">—</div>
+        </div>
+    </section>
 
-            <div class="card">
-                <p>Vendor-Eligible Units</p>
-                <div class="number">24</div>
-            </div>
+    <section class="card">
+        <h2>Recovery comparison</h2>
+        <p class="muted">Calculated recovery per unit</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Recovery per unit</th>
+                    <th>Time to cash</th>
+                </tr>
+            </thead>
+            <tbody id="routes">
+                <tr><td colspan="3">Loading calculations…</td></tr>
+            </tbody>
+        </table>
+    </section>
 
-            <div class="card">
-                <p>Refurbishment Candidates</p>
-                <div class="number">16</div>
-            </div>
-        </section>
+    <section class="card">
+        <h2>Supplier quality alerts</h2>
+        <div id="alerts">Loading alerts…</div>
+    </section>
 
-        <section class="card panel">
-            <h2>Priority Alert</h2>
-            <div class="alert">
-                <span class="status">Supplier Quality Warning</span>
-                <p>
-                    Batch HB-09 has a repeated headphone fault.
-                    Review the supplier batch before processing further returns.
-                </p>
-            </div>
-        </section>
+    <section class="card">
+        <h2>Recommended batch plan</h2>
+        <p id="plan">Loading recommendation…</p>
+        <p class="muted">
+            Recommendations are simulated. A manager must review
+            and approve actions before execution.
+        </p>
+        <button class="button" onclick="loadData()">Refresh analysis</button>
+        <p id="status" class="muted"></p>
+    </section>
+</main>
 
-        <section class="card panel">
-            <h2>Recommended Actions</h2>
-            <p>1. Prepare vendor returns for 24 eligible units.</p>
-            <p>2. Evaluate refurbishment for the remaining 16 units.</p>
-            <p>3. Investigate the repeated fault in batch HB-09.</p>
-            <p><strong>Note:</strong> All actions require manager approval.</p>
-        </section>
-    </main>
+<script>
+async function loadData() {
+    const status = document.getElementById("status");
+    status.textContent = "Calculating…";
 
-    <footer>
-        Gadgetbay Returns Intelligence · Cypher 2026
-    </footer>
+    try {
+        const response = await fetch("/api/recovery");
+        if (!response.ok) throw new Error("API request failed");
+
+        const data = await response.json();
+
+        document.getElementById("units").textContent = data.total_units;
+        document.getElementById("eligible").textContent = data.eligible_units;
+        document.getElementById("refurbish").textContent = data.refurbish_units;
+
+        const routes = document.getElementById("routes");
+        routes.replaceChildren();
+
+        data.routes.forEach(route => {
+            const tr = document.createElement("tr");
+
+            [route.route, "₹" + Number(route.recovery_per_unit).toLocaleString("en-IN"),
+             route.time_to_cash_days == null
+                ? "Not specified"
+                : route.time_to_cash_days + " days"
+            ].forEach(value => {
+                const td = document.createElement("td");
+                td.textContent = value;
+                tr.appendChild(td);
+            });
+
+            routes.appendChild(tr);
+        });
+
+        const alerts = document.getElementById("alerts");
+        alerts.replaceChildren();
+
+        if (!data.alerts.length) {
+            alerts.textContent = "No quality alerts detected.";
+        }
+
+        data.alerts.forEach(alert => {
+            const box = document.createElement("div");
+            box.className = "alert";
+
+            const heading = document.createElement("strong");
+            heading.textContent = alert.severity + " — " + alert.supplier_batch;
+
+            const details = document.createElement("p");
+            details.textContent =
+                alert.fault + ": " + alert.fault_rate_percent +
+                "% (" + alert.fault_count + " of " +
+                alert.return_count + " returns)";
+
+            const note = document.createElement("p");
+            note.textContent = alert.recommendation;
+
+            box.append(heading, details, note);
+            alerts.appendChild(box);
+        });
+
+        document.getElementById("plan").textContent =
+            "Return " + data.eligible_units +
+            " units to the vendor and evaluate refurbishment for " +
+            data.refurbish_units + " units.";
+
+        status.textContent = "Analysis loaded successfully.";
+    } catch (error) {
+        status.textContent =
+            "Could not load analysis. Check that the Flask server is running.";
+    }
+}
+
+loadData();
+</script>
 </body>
 </html>
